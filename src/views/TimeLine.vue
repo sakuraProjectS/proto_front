@@ -68,9 +68,11 @@ import axios from '@/api/index'
     data: () => ({
       messages: [],
       dialog: false,
-      railsURL: "http://localhost:3000",
+      // railsURL: "http://localhost:3000",
+      railsURL: 'https://13.114.43.226',
       users: [],
       avatar_urls: [],
+      users_name: []
     }),
     methods: {
         saveComment(){
@@ -83,7 +85,7 @@ import axios from '@/api/index'
         showContent(m, index){
           this.$router.push({
             name: 'MessageContent',
-            params: {message_id: m.id, avatar_url: this.avatar_urls[index]}
+            params: {message_id: m.id, avatar_url: this.avatar_urls[index], from_name: this.users_name[index]}
           })
         },
         deleteMessage(m){
@@ -142,6 +144,7 @@ import axios from '@/api/index'
                   client: localStorage.getItem('client'),
               },
             }).then(response=> (
+              this.users_name.push(response.data.name),
               this.avatar_urls.push(response.data.avatar_url)
             ))    
         );

@@ -2,7 +2,7 @@
     <v-container>
       <v-card class='mt-8'>
         <v-card-title>
-          家族を検索
+          大切な人を検索
         </v-card-title>
         <v-card-text>
           <v-text-field
@@ -26,10 +26,9 @@
           </v-btn>   
         </v-col>   
       </v-card>
-
        <v-card class='mt-8'>
          <v-card-title>
-           フレンド申請中
+           申請中
          </v-card-title>
         <v-list>
           <v-list-item
@@ -52,7 +51,7 @@
 
       <v-card class='mt-8'>
         <v-card-title>
-          申請されいているフレンド
+          保留中
         </v-card-title>
         <v-list>
           <v-list-item
@@ -135,7 +134,8 @@ export default {
         .then(response => (
             this.status = response.data.status, 
             console.log(response),
-             this.$router.go({path: this.$router.currentRoute.path, force: true})
+            // this.$router.go({path: this.$router.currentRoute.path, force: true})
+            this.$router.push({name: 'Home'})
         ))
     },
     acceptFriend(id){
@@ -154,7 +154,8 @@ export default {
         .then(response => (
             this.status = response.data.status, 
             console.log(response),
-            this.$router.go({path: this.$router.currentRoute.path, force: true})
+            // this.$router.go({path: this.$router.currentRoute.path, force: true})
+            this.$router.push({name: 'Home'})
         ))
     },
     searchUser(){
@@ -172,8 +173,7 @@ export default {
         .then(response => (
             console.log(response),
             this.userSearched = response.data, 
-            console.log(this.userSearched),
-            this.$router.go({path: this.$router.currentRoute.path, force: true})
+            console.log(this.userSearched)
         ))
     },
     followFeind(id){
@@ -189,7 +189,10 @@ export default {
           },
       }
       )
-      .then(response => (console.log(response)))
+      .then(response => (
+        console.log(response), 
+        this.$router.push({name: 'Home'})
+      ))
     },
   },
 }

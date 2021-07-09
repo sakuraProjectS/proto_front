@@ -12,26 +12,33 @@
         </v-col>
         <v-col cols="10">
           <v-row>
-            件名 : {{message.title}}
+            <v-col>
+              {{from_name}}
+            </v-col>
+            <v-col>
+              件名 : {{message.title}}
+            </v-col>
           </v-row>
           <v-row>
             {{message.time}} ← {{message.created_time}}
           </v-row>
         </v-col>
       </v-row>
-      <v-container class='mt-10'>
-        <v-row>
-          {{message.body}}  
-        </v-row>
-        <v-row class='mt-10'>
-          <v-img
-              v-bind:src="railsURL + message.image_url"
-              height=500
-              max-width=500
-          >
-          </v-img>
-        </v-row>
-      </v-container>
+   
+
+    <v-container class='mt-10'>
+      <v-row>
+        {{message.body}}  
+      </v-row>
+      <v-row class='mt-10'>
+        <v-img
+            v-bind:src="railsURL + message.image_url"
+            height=500
+            max-width=500
+        >
+        </v-img>
+      </v-row>
+    </v-container>
     </v-container>
   </v-card>
 </template>
@@ -49,12 +56,15 @@ export default {
       message_id: '',
       message: {},
       uploadedImage: '',
-      railsURL: "http://localhost:3000",
+      // railsURL: "http://localhost:3000",
+      railsURL: 'https://13.114.43.226',
       avatar_url: '',
+      from_name: ''
     }),
     created(){
         this.message_id = this.$route.params.message_id,
-        this.avatar_url = this.$route.params.avatar_url
+        this.avatar_url = this.$route.params.avatar_url,
+        this.from_name = this.$route.params.from_name
     },
     mounted() { 
       axios()

@@ -56,8 +56,10 @@
           </v-row>
           <v-row class='mb-2'> 
             <v-col>
-              <v-btn class="mr-6" @click="signUp">新規登録</v-btn>
-              <v-btn class="ml-6" @click="signIn">ログイン</v-btn>
+              <v-btn @click="signUp">新規登録</v-btn>
+            </v-col>
+            <v-col>
+              <v-btn @click="signIn">ログイン</v-btn>
             </v-col>
           </v-row>
         </v-form>

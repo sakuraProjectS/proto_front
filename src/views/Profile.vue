@@ -55,8 +55,11 @@
                 <v-row>
                     <div v-if="profile.birthdate">
                     <v-card-subtitle>
-                        {{profile.birthdate}}
+                        生年月日
                     </v-card-subtitle>
+                    <v-card-text>
+                        {{profile.birthdate}}
+                    </v-card-text>
                     <v-card-actions>
                     <v-btn
                             @click="dialog = true"
@@ -226,7 +229,8 @@ export default {
       comment: '卒業まであとわずか．\n２月にイタリアへの卒業旅行，ちゃんと行けるかなー',
       post: {},
       uploadedImage: '',
-      railsURL: "http://localhost:3000"
+      railsURL: 'https://13.114.43.226'
+    //   railsURL: "http://localhost:3000"
     }),
 
     async mounted() {
@@ -270,7 +274,8 @@ export default {
         )
         .then(response => (
             console.log(response),
-            this.$router.go({path: this.$router.currentRoute.path, force: true})
+            // this.$router.go({path: this.$router.currentRoute.path, force: true})
+            this.$router.push({name: 'Home'})  
         ))
       },
     onFileChange(e) {
@@ -301,7 +306,8 @@ export default {
           this.$refs.file.value = ''
           this.profile.avatar = response.data.avatar,
           console.log(response) ,
-          this.$router.go({path: this.$router.currentRoute.path, force: true})
+        //   this.$router.go({path: this.$router.currentRoute.path, force: true})
+            this.$router.push({name: 'Home'})  
         }).catch(e => {
           console.log(e)
         })

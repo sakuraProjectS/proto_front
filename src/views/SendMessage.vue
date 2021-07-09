@@ -15,7 +15,7 @@
         ></v-text-field>
         </div>
         <v-row>
-          <v-col>
+          <v-col cols='4'>
             <v-select
               v-model="year"
               :items="yearrange"
@@ -143,7 +143,8 @@ export default {
       title: [],
       message: {},
       uploadedImage: '',
-      railsURL: "http://localhost:3000"
+      // railsURL: "http://localhost:3000"
+      railsURL: 'https://13.114.43.226'
     }
   },
   computed: {
