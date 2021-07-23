@@ -5,7 +5,9 @@ import Login from '@/views/Login.vue'
 import SelectFriend from '@/views/SelectFriend.vue'
 import Received from '@/views/ReceivedPage.vue'
 import MessageContent from '@/views/MessageContent.vue'
+import OtherProfile from '@/views/OtherProfile.vue'
 import Profile from '@/views/Profile.vue'
+import ProfileEdit from '@/views/ProfileEdit.vue'
 import Test from '@/views/Test.vue'
 import TimeLine from '@/views/TimeLine.vue'
 import SendMessage from '@/views/SendMessage.vue'
@@ -42,6 +44,17 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/profile_edit',
+    name: 'ProfileEdit',
+    component: ProfileEdit
+  },
+  {
+    path: '/other_profile',
+    name: 'OtherProfile',
+    component: OtherProfile,
+    props: true
   },
   {
     path: '/test',

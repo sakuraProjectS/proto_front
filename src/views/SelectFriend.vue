@@ -1,71 +1,73 @@
 <template>
- 
-  <v-container fluid fill-height>
-    <v-card
-      width="400px"
-      height='100%'
-    >
-      <v-list dense>
-        <v-subheader class='text-h5'>送信相手</v-subheader>
-        <v-divider/>
-        <v-list-item-group
-          color="primary"
-        >
-          <v-list-item
-            v-for="(item, i) in frineds"
-            :key="i"
-          >
-              <v-list-item-icon>
-                  <v-avatar size="30">
-                      <img
-                        :src="railsURL + item.avatar_url"
-                      >
-                  </v-avatar>
-                </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title class='text-h8'> {{item.name}}</v-list-item-title>
-              </v-list-item-content> 
-              <v-list-item-action>
-                <v-btn @click='selectFrined(item)' icon>
-                  <v-icon>
-                    mdi-arrow-right-bold
-                  </v-icon>
-                </v-btn>
-              </v-list-item-action>
-          </v-list-item>
-          <v-divider/>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-      <v-card
-          v-if="select.name"
-          class="mx-auto"
-          max-width="400"
-          max-height="100%"
-      >
-        <v-img
-        v-bind:src="railsURL + select.avatar_url"
-        height="100%"
-        width="100%"
-        >
-        
-        </v-img>
-        <v-card-title>
-          {{select.name}}
-        </v-card-title>
-        <v-row>
-            <v-card-subtitle>
-                {{select.birthdate}}
-            </v-card-subtitle>
-        </v-row>
-        <v-container>
-        <v-btn icon x-large @click='editMessage'>
-          <v-icon x-large>
-            mdi-email
+  <v-container>
+    <v-row class='mt-3 ml-3'>
+        <p class="text-h6"> 連絡先 </p>
+    </v-row>
+    <v-row class='mr-2 mt-0'>
+      <v-col cols='1'>
+        <v-btn icon @click='returnPage'>
+          <v-icon>
+            mdi-arrow-left-thick
           </v-icon>
         </v-btn>
-      </v-container>
-      </v-card>
+      </v-col>
+      <v-col cols='10'></v-col>
+      <v-col cols='1'>
+        <v-btn icon @click='showRequest'>
+          <v-icon>
+            mdi-account-plus
+          </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-divider/>
+    <v-row class='mt-3'> 
+      <v-layout wrap class='justify-center align-center'>
+        <v-flex xs12 sm10 md10>
+          <v-card color="rgb(0, 0, 0, 0)" elevation='0'>
+          <v-list color="rgb(0, 0, 0, 0)" two-line>
+            <template  v-for="(item) in frineds">
+              <v-list-item
+                :key="item.name"
+              >   
+                <v-row>
+                  <v-col>
+                    <v-row>
+                      <v-list-item-icon>
+                          <v-avatar size="50">
+                              <img
+                                :src="railsURL + item.avatar_url"
+                              >
+                          </v-avatar>
+                        </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title class='text-h8'> {{item.name}}</v-list-item-title>
+                        <v-list-item-subtitle> {{item.birthdate}}</v-list-item-subtitle>
+                      </v-list-item-content> 
+                    </v-row>
+                  </v-col>
+                  <v-col cols='1' class='mr-1 mt-3'>
+                    <v-btn icon @click='showProfile(item.id)'>
+                      <v-icon>
+                        mdi-alpha-i-circle
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols='1' class='mr-5 mt-3'>
+                    <v-btn @click='editMessage(item.id)' icon>
+                      <v-icon>
+                        mdi-email
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item>
+            </template>
+          </v-list>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-row>
   </v-container>
 </template>
 
@@ -81,8 +83,8 @@ export default {
           'avatar': null,
           'birthdate': null
         },
-        railsURL: 'https://13.114.43.226'
-        // railsURL: "http://localhost:3000"
+        // railsURL: 'https://13.114.43.226'
+        railsURL: "http://localhost:3000"
     }),
     async mounted() {
     await axios()
@@ -96,20 +98,24 @@ export default {
       },
       )
       .then(response => (
-            console.log(response.data),
-            this.frineds = response.data
+            console.log(response),
+            this.frineds = response.data.friends
     )
     );
   },
     methods: {
-      editMessage() {
-        console.log(this.select),
-        this.$router.push({name: 'SendMessage', params: {to_id: this.select.id}})
+      editMessage(id) {
+        this.$router.push({name: 'SendMessage', params: {to_id: id}})
+      },      
+      showProfile(id) {
+        this.$router.push({name: 'OtherProfile', params: {profile_id: id}})
+      },     
+      showRequest() {
+        this.$router.push({name: 'ShowRequest'})
       },
-      selectFrined(frined) {
-        this.select = frined
+      returnPage() {
+        this.$router.push({name: 'TimeLine'})
       }
-      
     },
 }
 </script>

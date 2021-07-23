@@ -9,6 +9,6 @@ module.exports = {
       }
     }
   },
-  publicPath: '/proto-front',
+  publicPath: '/sakura-front',
   outputDir: 'docs'
 }

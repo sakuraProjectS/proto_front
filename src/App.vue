@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <AppHeader v-if="$route.name !== 'Login'"></AppHeader>
-    <v-main v-bind:class="{ bg: isActive }">
+    <!-- <AppHeader v-if="$route.name !== 'Login'"></AppHeader> -->
+    <v-main class='v-application'>
       <router-view/>
     </v-main>
     <!-- <AppFooter v-if="$route.name !== 'Login'"></AppFooter> -->
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import AppHeader from './components/header.vue'
+// import AppHeader from './components/header.vue'
 // import AppFooter from './components/AppFooter.vue'
 export default {
   data: () => ({
@@ -18,7 +18,7 @@ export default {
   name: 'App',
   
   components: {
-    AppHeader,
+    // AppHeader,
     // AppFooter
   },
   mounted: function() {
@@ -30,18 +30,11 @@ export default {
 
 </script>
 
-<style>
-#app {
-   font-size: 16px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #0b0c0c;
-  margin-top: 0px;
+<style scoped>
+.v-application {
+  background-color: #fff4f6;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
-  .bg {
-    background-image: url("~@/assets/back/stripe3.png");
-    max-width:100%;
-  }
 </style>

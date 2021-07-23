@@ -1,238 +1,92 @@
 <template>
     <v-container fluid fill-height class='bg'>
-        <v-col>           
+        <v-row class='mt-3 ml-3'><p class="text-h6"> プロフィール </p></v-row>
+        <v-row class='mr-2 mt-0 mb-0'>
+            <v-col cols='1'>
+                <v-btn icon @click='returnPage'>
+                <v-icon>
+                    mdi-arrow-left-thick
+                </v-icon>
+                </v-btn>
+            </v-col>
+            <v-col cols='10'></v-col>
+            <v-col cols='1'>
+                <v-btn @click='editProfile' icon>
+                    <v-icon> mdi-pen </v-icon>
+                </v-btn>
+            </v-col>
+        </v-row>
+        <v-layout wrap class='justify-center'>
+            <v-flex xs12 sm9 md6>
+            <v-divider class='mt-0'/>
+            <v-row v-if="profile.avatar" justify="center" class="mb-5 mt-5">
+                <v-avatar size='100'>
+                    <v-img
+                    v-bind:src="railsURL + profile.avatar"
+                    >
+                    </v-img>
+                </v-avatar>
+            </v-row>
+            <v-row v-else justify="center" class="mb-5 mt-5">
+                <v-avatar size='100'>
+                    <v-img
+                    src="@/assets/icon/kame.jpg"
+                    >
+                    </v-img>
+                </v-avatar>
+            </v-row>
             <v-card
-               class="mx-auto"
-                max-width="400"
+                height = "450"
+                rounded="xl"
             >
-                <v-img
-                v-bind:src="railsURL + profile.avatar"
-                height="300px"
-                >
-                    <v-card-actions>
-                        <v-btn
-                            icon
-                            @click="dialog_avatar = true"
-                        >
-                            <v-icon>mdi-camera</v-icon>
-                        </v-btn>
-                        <v-dialog
-                            :retain-focus="false"
-                            v-model="dialog_avatar"
-                            persistent
-                            max-width="600px"
-                            >
-                            <v-card>
-                                <v-card-title>
-                                    プロフィール画像を変更
-                                </v-card-title>
-                                <input name="uploadedImage" type="file" ref="file" accept="image/png, image/jpeg" @change="onFileChange"><br />
-    
-                                <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn icon @click='postItem'>
-                                    <v-icon>
-                                        mdi-book
-                                    </v-icon>
-                                </v-btn>
-                                <v-btn
-                                    @click="dialog_avatar = false"
-                                    icon
-                                >
-                                    <v-icon>
-                                        mdi-close
-                                    </v-icon>
-                                </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-card-actions>
-                </v-img>
-               
-                <v-card-title>
-                    {{profile.name}}
-                </v-card-title>
-                <v-row>
-                    <div v-if="profile.birthdate">
-                    <v-card-subtitle>
-                        生年月日
-                    </v-card-subtitle>
-                    <v-card-text>
-                        {{profile.birthdate}}
-                    </v-card-text>
-                    <v-card-actions>
-                    <v-btn
-                            @click="dialog = true"
-                        >
-                            変更
-                        </v-btn>
-                        <v-dialog
-                            v-model="dialog"
-                            persistent
-                            >
-                            <v-card>
-                                <v-card-title>
-                                <span class="headline">生年月日</span>
-                                </v-card-title>
-                                <v-card-text>
-                                <v-container>
-                                     <v-row>
-                                    <v-col>
-                                        <v-select
-                                        v-model="year"
-                                        :items="yearrange"
-                                        label="年"
-                                        ></v-select>
-                                    </v-col>
-                                    
-                                    <v-col>
-                                        <v-select
-                                        v-model="month"
-                                        :items="monthrange"
-                                        label="月"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col>
-                                        <v-select
-                                        v-model="day"
-                                        :items="daysrange"
-                                        label="日"
-                                        ></v-select>
-                                    </v-col>
-                                    </v-row>
-                                </v-container>
-                            
-                                </v-card-text>
-                                <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="dialog = false"
-                                >
-                                    Close
-                                </v-btn>
-                                <v-btn
-                                    icon
-                                    dialog = "false"
-                                    @click='registerBirthdate'
-                                >
-                                    <v-icon> mdi-check</v-icon>
-                                </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        </v-card-actions>
-                    </div>
-                    <div v-else>
-                        <v-card-subtitle>
-                            生年月日が未登録です
-                        </v-card-subtitle>
-                        <v-card-actions>
-                        <v-btn
-                            @click="dialog = true"
-                        >
-                            登録
-                        </v-btn>
-                        <v-dialog
-                            v-model="dialog"
-                            persistent
-                            >
-                            <v-card>
-                                <v-card-title>
-                                <span class="headline">生年月日</span>
-                                </v-card-title>
-                                <v-card-text>
-                                <v-container>
-                                     <v-row>
-                                    <v-col>
-                                        <v-select
-                                        v-model="year"
-                                        :items="yearrange"
-                                        label="年"
-                                        ></v-select>
-                                    </v-col>
-                                    
-                                    <v-col>
-                                        <v-select
-                                        v-model="month"
-                                        :items="monthrange"
-                                        label="月"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col>
-                                        <v-select
-                                        v-model="day"
-                                        :items="daysrange"
-                                        label="日"
-                                        ></v-select>
-                                    </v-col>
-                                    </v-row>
-                                </v-container>
-                            
-                                </v-card-text>
-                                <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="dialog = false"
-                                >
-                                    Close
-                                </v-btn>
-                                <v-btn
-                                    icon
-                                    dialog = "false"
-                                    @click='registerBirthdate'
-                                >
-                                    <v-icon> mdi-check</v-icon>
-                                </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        </v-card-actions>
-                    </div>
-                </v-row>
+                <v-container>
+                    <v-row>
+                        <v-col>
+                            <v-list two-line>
+                                <template v-for="(item, key, index) in items">
+                                    <v-list-item :key = key>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{key}}
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>
+                                                {{item}}
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                    <v-divider
+                                        v-if="index < Object.keys(items).length"
+                                        :key="item"
+                                    ></v-divider>
+                                </template>
+                            </v-list>
+                        </v-col>
+                    </v-row>  
+                </v-container>
             </v-card>
-        </v-col>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
 import axios from '@/api/index'
 // import { mapState } from 'vuex'
-const year_start = 1930
-const year_end = 2030
-const ageRange = new Array(year_end - year_start + 1).fill(null).map((_, i) => i + year_start)
-const month_start = 1
-const month_end = 12
-const monthRange = new Array(month_end - month_start + 1).fill(null).map((_, i) => i + month_start)
-const daysRange = [...Array(31)].map((_, i) => i)
-
 
 export default {
     data: () => ({
 
       profile:{
-          birthdate : '',
           avatar : '',
-          name: null
       },
-      year: '',
-      yearrange: ageRange,
-      month: '',
-      monthrange: monthRange,
-      day: '',
-      daysrange: daysRange,
-      dialog: false,
-      dialog_avatar: false,
-      comment: '卒業まであとわずか．\n２月にイタリアへの卒業旅行，ちゃんと行けるかなー',
+ 
+    //   comment: '卒業まであとわずか．\n２月にイタリアへの卒業旅行，ちゃんと行けるかなー',
       post: {},
       uploadedImage: '',
-      railsURL: 'https://13.114.43.226'
-    //   railsURL: "http://localhost:3000"
+      items: {},
+    //   railsURL: 'https://13.114.43.226'
+      railsURL: "http://localhost:3000"
     }),
-
     async mounted() {
     await axios()
       .get('/profile/' + localStorage.getItem('id'),
@@ -245,80 +99,40 @@ export default {
       },
       )
       .then(response => (
-            this.profile.name = response.data.name, 
+            // this.profile.name = response.data.name, 
             this.profile.avatar = response.data.avatar_url, 
-            this.profile.birthdate = response.data.birthdate,
-            console.log(this.profile)
+            // this.profile.birthdate = response.data.birthdate,
+            this.items['Name'] = response.data.name,
+            this.items['Date of birth'] = response.data.birthdate,
+            this.items['E-mail'] = response.data.email,
+            console.log(this.items)
     )
     );
   },
   methods: {
-      registerBirthdate(){
-        // var date = new Date(this.year, this.month - 1, this.day)
-        // this.profile.birthdate = date.getTime() / 1000
-        axios()
-        .put('/update_birthdate/',
-        {
-            id: localStorage.getItem('id'),
-            year: this.year,
-            month: this.month,
-            day: this.day
-        },
-        {
-            headers: {
-                'access-token': localStorage.getItem('access-token'),
-                uid: localStorage.getItem('uid'),
-                client: localStorage.getItem('client'),
-            },
-        },
-        )
-        .then(response => (
-            console.log(response),
-            // this.$router.go({path: this.$router.currentRoute.path, force: true})
-            this.$router.push({name: 'Home'})  
-        ))
+      editProfile(){
+          console.log(this.profile.avatar)
+          console.log(this.items['Name'])
+          console.log(this.items['Date of birth'])
+          this.$router.push({name: 'ProfileEdit'})
       },
-    onFileChange(e) {
-        e.preventDefault();
-        let files = e.target.files;
-        this.uploadedImage = files[0];
-        this.profile.avatar = this.uploadedImage
-        console.log(files)
-        console.log(this.uploadedImage)
-     },
-    postItem() {
-        let formData = new FormData();
-        formData.append('avatar', this.uploadedImage);
-        formData.append('id', localStorage.getItem('id'));
-        console.log(formData)
-        axios().
-        put('/update_avatar',
-        formData,
-        {
-            headers: {
-                'access-token': localStorage.getItem('access-token'),
-                uid: localStorage.getItem('uid'),
-                client: localStorage.getItem('client'),
-            },
-        },
-        ).then(response => {
-          this.uploadedImage = ''
-          this.$refs.file.value = ''
-          this.profile.avatar = response.data.avatar,
-          console.log(response) ,
-        //   this.$router.go({path: this.$router.currentRoute.path, force: true})
-            this.$router.push({name: 'Home'})  
-        }).catch(e => {
-          console.log(e)
-        })
-      }
+      returnPage(){
+        this.$router.push({name: 'TimeLine'})
+    }
     }
 }
 </script>
 
 <style>
-  .top {
-    background-image: url("~@/assets/back/sakura.jpg");
-    /* max-width:100%; */
-  }
+  .rounded-card{
+    border-radius:50px;
+}
+.test2{
+
+position: absolute;
+bottom: 20px;
+margin: 0px;
+padding: 0px;
+right: 20px;
+}
 </style>

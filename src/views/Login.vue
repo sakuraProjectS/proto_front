@@ -1,72 +1,96 @@
 <template>
-    <v-container fill-height class="login mt-5">
-      <v-row justify="center">
-          <img src="../assets/img/sakura-card.png" width="180" height="180">
-      </v-row>
-
-      <v-container class="cont">
-        <v-form recontainerf="checkForm">
-          <v-row>
-            <v-icon>
-              mdi-account
-            </v-icon>
-            <v-col>
-              <v-text-field
-              v-model="lastname"
-              label="姓"
-              outlined
-              filled
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-              v-model="firstname"
-              label="名"
-              outlined
-              filled
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-icon>
-              mdi-email
-            </v-icon>
-            <v-col>
-              <v-text-field
-              v-model="email"
-              label="メールアドレス"
-              outlined
-              filled
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>    
-            <v-icon>
-              mdi-key
-            </v-icon>
-            <v-col>
-              <v-text-field
-              v-model="password"
-              type="password"
-              label="パスワード"
-              outlined
-              filled
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row class='mb-2'> 
-            <v-col>
-              <v-btn @click="signUp">新規登録</v-btn>
-            </v-col>
-            <v-col>
-              <v-btn @click="signIn">ログイン</v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-container>
+    <v-container>
+        <v-row justify="center" class="mt-5">
+            <img src="../assets/img/sakura-logo.png" width="180" height="180">
+        </v-row>
+        <v-layout wrap class='justify-center'>
+          <v-flex xs12 sm10 md8>
+            <v-row class="ml-3 mr-3 mt-7">
+                <v-col>
+                    <v-text-field
+                        v-model="lastname"
+                        label="姓"
+                        outlined
+                        filled
+                        rounded
+                        background-color="grey lighten-5"
+                    ></v-text-field>
+                </v-col>
+                <v-col>
+                    <v-text-field
+                        v-model="firstname"
+                        label="名"
+                        outlined
+                        filled
+                        rounded
+                        background-color="grey lighten-5"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row class="ml-3 mr-3 mt-n7"> 
+                <v-col>
+                    <v-text-field
+                        v-model="email"
+                        label="メールアドレス"
+                        outlined
+                        filled
+                        rounded
+                        background-color="grey lighten-5"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+              <v-row class="ml-3 mr-3 mt-n7"> 
+                <v-col>
+                    <v-text-field
+                        v-model="password"
+                        type="password"
+                        label="パスワード"
+                        outlined
+                        filled
+                        rounded
+                        background-color="grey lighten-5"
+                    ></v-text-field>
+                </v-col>
+              </v-row>
+          </v-flex>
+        </v-layout>
+        <div class="text-center">
+            <v-row class="mt-n5" align="center"> 
+                <v-col>
+                    <v-btn
+                        depressed
+                        rounded
+                        color="blue lighten-3"
+                        x-large
+                        @click="signIn"
+                    >
+                        ログイン
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-row class="mt-n1" align="center"> 
+                <v-col>
+                    <v-btn
+                        depressed
+                        rounded
+                        color="grey lighten-2"
+                        x-large
+                        @click="signUp"
+                    >
+                        新規ユーザー登録
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-row class='justify-center'>
+              <v-switch
+                v-model="auto"
+                class="ma-1"
+                label="次回から自動ログインする"
+              ></v-switch>
+            </v-row>
+        </div>
     </v-container>
 </template>
-
 
 <script>
 import axios from '@/api/index'
@@ -85,6 +109,7 @@ export default {
       comment: "",
       posts: [],
       user: {},
+      auto: "",
     };
   },
   methods: {
@@ -134,7 +159,7 @@ export default {
       }
       )
       if (this.email == localStorage.getItem("uid")){
-            this.$router.push({name: 'Home'})
+            this.$router.push({name: 'TimeLine'})
       }
     },
     signIn() {
@@ -163,7 +188,7 @@ export default {
           status: false,
         })
           if (this.email == response.headers["uid"]){
-            this.$router.push({name: 'Home'})
+            this.$router.push({name: 'TimeLine'})
           }
         });    
     },
@@ -172,29 +197,3 @@ export default {
 };
 </script>
 
-<style  lang="scss" scoped>
-.login {
-  background-image: url("~@/assets/back/login.png");
-  background-size: 95% 95%;
-  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
-  text-transform: uppercase;
-  // display: block;
-  // font-size: 92px;
-  // color: #f1ebe5;
-  // text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
-  // font-weight: bold;
-  // letter-spacing: -4px;
-  // text-align: center;
-  // position: absolute;
-  // padding: 300px 300px;
-  // top: 15%;
-  // left: 50%;
-  // transform: translate(-50%,-50%);
-  // border-radius: 20px;
-}
-
-  .cont {
-  // background-image: url("~@/assets/back/login.png");
-  width: 60%;
-  }
-</style>

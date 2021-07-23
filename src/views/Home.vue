@@ -11,7 +11,7 @@
         <v-col cols='9'>
           <v-card>
             <v-card-text>
-              送信
+              連絡先
             </v-card-text>
           </v-card>
         </v-col>
@@ -28,7 +28,7 @@
         <v-col cols='9'>
           <v-card>
             <v-card-text>
-              受信
+              タイムライン
             </v-card-text>
             <!-- <v-card-text>
               1/21 おじいちゃんの誕生日
@@ -71,7 +71,7 @@
           </v-card>
         </v-col>
        </v-row>
-       <v-row class="mt-10"> 
+       <!-- <v-row class="mt-10"> 
         <v-col cols='3'>
           <v-btn icon @click='inviteFamiliy'>
             <v-icon x-large>
@@ -86,7 +86,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-      </v-row>
+      </v-row> -->
       
       <!-- <v-row class="mt-15">
         <v-col >

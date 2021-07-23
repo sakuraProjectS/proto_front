@@ -1,7 +1,14 @@
 <template>
-  <v-card :size="cardsize">
-    hogehoge
-  </v-card>
+  <v-layout wrap>
+    <v-flex v-for="message in messages" :key="message.to_data" xs12 md6 lg3>
+      <v-card>
+
+        <v-card-title> 
+          {{message.name}} 
+        </v-card-title> 
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -11,7 +18,11 @@ export default {
  
   data() {
     return {
-      cardsize: ""
+      cardsize: "",
+      messages: [
+        {name: '田中 敏之', title: '誕生日おめでとう', body: 'lkcnapkcnsakcnakncaspcnakpnakascacaca', from_date: '2021/03/21', to_date: '2021/05/23'},
+        {name: '田中 権左衛門', title: '誕生日おめでとう', body: 'lkcnapkcnsakcnakncaspcnakpnakascacaca', from_date: '2021/03/21', to_date: '2021/05/23'},
+      ]
     }
   },
   mounted() {
@@ -35,28 +46,5 @@ export default {
         
       }
     },
- 
-  // methods: {
-  //   // ...mapActions('users', ['updateUser']),
-  //   // 選択された画像をdataに保存する
-  //   async handleChange(event) {
-  //     const { valid } = await this.$refs.provider.validate(event)
-  //     if (valid) this.uploadAvatar = event.target.files[0]
-  //   },
-  //   // textなどの単純なデータと違い画像などのバイナリーファイルは
-  //   // FormDataを使わなければサーバーに送ることができない。
-  //   update() {
-  //     const formData = new FormData()
-  //     formData.append("user[name]", this.user.name)
-  //     if (this.uploadAvatar) formData.append("user[avatar]", this.uploadAvatar)
-
-  //     try {
-  //       this.updateUser(formData)
-  //       // this.$router.push({ name: "TaskIndex" })
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  // }
 }
 </script>

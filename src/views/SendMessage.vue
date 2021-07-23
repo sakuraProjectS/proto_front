@@ -1,99 +1,111 @@
 <template>
   <v-container>
-    <v-row justify="center" class='mt-10'>
-      <v-col cols="2">
-        <v-avatar size='100'>
-            <img src="~@/assets/icon/cat.jpg">
-        </v-avatar>
-      </v-col>
-      <v-col cols="5">
-        <div class='text-h4'>
-        <v-text-field
-          outlined
-          v-model="title"
-          label="件名"
-        ></v-text-field>
-        </div>
-        <v-row>
-          <v-col cols='4'>
-            <v-select
-              v-model="year"
-              :items="yearrange"
-              label="年"
-            ></v-select>
-          </v-col>
-        
-          <v-col>
-            <v-select
-              v-model="month"
-              :items="monthrange"
-              label="月"
-            ></v-select>
-          </v-col>
-          <v-col>
-            <v-select
-              v-model="day"
-              :items="daysrange"
-              label="日"
-            ></v-select>
-          </v-col>
-          <v-col>
-            <v-select
-              v-model="hour"
-              :items="hoursrange"
-              label="時"
-            ></v-select>
-          </v-col>
-          <v-col>
-            <v-select
-              v-model="minute"
-              :items="minutesrange"
-              label="分"
-            ></v-select>
-          </v-col>
-        </v-row>
+    <v-row class='mt-3 ml-3'>
+        <p class="text-h6"> メッセージ </p>
+    </v-row>
+  <v-row class='mr-2 mt-0'>
+    <v-col cols='1'>
+      <v-btn icon @click='returnPage'>
+        <v-icon>
+          mdi-arrow-left-thick
+        </v-icon>
+      </v-btn>
     </v-col>
-
-    <v-col>
-          <p>
-            <label>画像</label>
-            <input name="uploadedImage" type="file" ref="file" accept="image/png, image/jpeg" @change="onFileChange"><br />
-            <!-- <v-btn @click='postItem'>
-                アップロード
-            </v-btn> -->
-        </p>
-    </v-col>
-    
-            
-</v-row>
-
-    <v-row>
+  </v-row>
+  <v-divider class='mt-3'/>
+  <v-card height='550' class='mt-3'>
+    <v-alert outlined color="yellow darken-3" height="550">
+      <v-row class='mt-0'>
+        <v-col cols="2">
+          <v-avatar size='50'>
+            <img :src="railsURL + user.avatar_url">
+          </v-avatar>
+        </v-col>
+        <v-col>
+          <v-text-field
+            outlined
+            v-model="title"
+            label="件名"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+       <v-col>
+        <v-select
+          v-model="year"
+          :items="yearrange"
+          label="年"
+          height="20"
+          dense
+        />
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="month"
+            :items="monthrange"
+            label="月"
+            height="20"
+            dense
+          ></v-select>
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="day"
+            :items="daysrange"
+            label="日"
+            height="20"
+            dense
+          ></v-select>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-select
+            v-model="hour"
+            :items="hoursrange"
+            label="時"
+            height="20"
+            dense
+          ></v-select>
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="minute"
+            :items="minutesrange"
+            label="分"
+            height="20"
+            dense
+          ></v-select>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <input name="uploadedImage" type="file" ref="file" accept="image/png, image/jpeg" @change="onFileChange"><br />
+        </v-col>
+      </v-row>
+      <v-row>
         <v-container fluid>
           <v-textarea
             v-model='body'
             counter
             label="メッセージ"
-            height="300"
             :value="value"
             outlined
           ></v-textarea>
         </v-container>
-    </v-row>
-  
-    <v-row justify="end">
-      <v-card-actions>
-        <v-btn outlined text v-on:click="sendMessage">送信する</v-btn>
-        <!-- <span v-if="suceess">送信成功</span> -->
-      </v-card-actions> 
-      <!-- /送信ボタン -->
-    </v-row>
-  
+      </v-row>
+      <v-row justify="end" class='mt-0'>
+        <v-card-actions>
+          <v-btn outlined text v-on:click="sendMessage">送信する</v-btn>
+        </v-card-actions> 
+      </v-row>
+    </v-alert>
+    </v-card>
   </v-container>
 </template>
 
 
 <script>
-// import AppBackgroundHolder from '../components/AppBackgroundHolder.vue'
 import axios from '@/api/index'
 import { mapState } from 'vuex'
 
@@ -115,7 +127,6 @@ export default {
   data () {
     return {
       head: 'メッセージ送信',
-      // rules: [v => v.length <= 25 || 'Max 25 characters'],
       value: null,
       item_minutes: [
         '0',
@@ -143,8 +154,8 @@ export default {
       title: [],
       message: {},
       uploadedImage: '',
-      // railsURL: "http://localhost:3000"
-      railsURL: 'https://13.114.43.226'
+      railsURL: "http://localhost:3000"
+      // railsURL: 'https://13.114.43.226'
     }
   },
   computed: {
@@ -193,13 +204,16 @@ export default {
         this.uploadedImage = files[0];
         console.log(files)
         console.log(this.uploadedImage)
-     }
+     },
+     returnPage() {
+    this.$router.push({name: 'Send'})
+  }
   },
 }
 </script>
 
-<style>
-  .m {
-    margin-top: 10px;
-  }
+<style scoped>
+ .v-select input{
+   font-size: 1.0pm;
+ }
 </style>
