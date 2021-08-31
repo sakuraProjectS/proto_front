@@ -13,7 +13,19 @@ export default new Vuex.Store({
       id: '',
     },
     login_status: false,
-    railsURL: "http://localhost:3000"
+    railsURL: "http://localhost:3000",
+    // railsURL: 'https://www.sakuraproto.com',
+    message: {
+      title: "",
+      body: "",
+      year: "",
+      month: "",
+      day: "",
+      house: "",
+      minute: "",
+      to_id: 0,
+      image: ''
+    }
   },
   mutations: {
     USER_LOGIN(state, user_info) {
@@ -21,6 +33,9 @@ export default new Vuex.Store({
     },
     KEEP_LOGIN(state, login_status) {
       state.login_status = login_status
+    },
+    SAVE_MESSAGE(state, message) {
+      state.message = message
     }
   },
   actions: {
@@ -31,6 +46,10 @@ export default new Vuex.Store({
     async keepLogin({ commit }, login_status) {
       commit('KEEP_LOGIN', login_status)
       return login_status
+    },
+    async saveMessage({ commit }, message) {
+      commit('SAVE_MESSAGE', message)
+      return message
     },
   },
   plugins: [createPersistedState({})],

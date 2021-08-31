@@ -45,7 +45,7 @@
             <v-btn icon @click='showProfile'>
                 <v-avatar size='30'>
                   <v-img
-                  src="@/assets/icon/kame.jpg"
+                  src="./../assets/icon/kame.jpg"
                   >
                   </v-img>
                 </v-avatar>
@@ -54,50 +54,105 @@
       </v-row>
       <v-divider></v-divider>
       <v-row justify="center" class='mt-5 mb-3'> 
-        <v-tab v-if='content > 0'>
-          <v-badge
-            color="pink"
-            icon="mdi-heart"
-          >
-          <v-badge
-            color='pink'
-            :content="content"
-            bottom
-          >
-            <v-img
-              src='@/assets/icon/kame.jpg'
-              max-height="100"
-              max-width="100"
+        <v-col cols='1' />
+        <v-col cols='3'>
+          <v-tab v-if='content > 0'>
+            <v-badge
+              color="pink"
+              icon="mdi-heart"
             >
-            </v-img>
-          </v-badge>
-          </v-badge>
-        </v-tab>
-        <v-tab v-if='content === 0'>
-          <v-badge
-            color="pink"
-            icon="mdi-heart"
-          >
-            <v-img
-              src='@/assets/icon/kame.jpg'
-              max-height="100"
-              max-width="100"
+            <v-badge
+              color='pink'
+              :content="content"
+              bottom
             >
-            </v-img>
-          </v-badge>
-        </v-tab>
+              <v-img
+                src='@/assets/icon/kame.jpg'
+                max-height="100"
+                max-width="100"
+              >
+              </v-img>
+            </v-badge>
+            </v-badge>
+          </v-tab>
+          <v-tab v-if='content === 0'>
+            <v-badge
+              color="pink"
+              icon="mdi-heart"
+            >
+              <v-img
+                src='@/assets/icon/kame.jpg'
+                max-height="100"
+                max-width="100"
+              >
+              </v-img>
+            </v-badge>
+          </v-tab>
+        </v-col>
+        <v-col cols='4' class='mt-15'>
+          <v-img
+              src='@/assets/icon/road.png'
+              max-height="100"
+              max-width="400"
+          />
+        </v-col>
+        <v-col cols='3'>
+          <v-tab v-if='content > 0'>
+            <v-badge
+              color="pink"
+              icon="mdi-heart"
+            >
+            <v-badge
+              color='pink'
+              :content="content"
+              bottom
+            >
+              <v-img
+                src='./../assets/icon/house.png'
+                max-height="100"
+                max-width="100"
+              >
+              </v-img>
+            </v-badge>
+            </v-badge>
+          </v-tab>
+          <v-tab v-if='content === 0'>
+            <v-badge
+              color="pink"
+              icon="mdi-heart"
+            >
+              <v-img
+                src='./../assets/icon/house.png'
+                max-height="100"
+                max-width="100"
+              >
+              </v-img>
+            </v-badge>
+          </v-tab>
+        </v-col>
+        <v-col cols='1'/>
       </v-row>
       <v-layout wrap>
-      <v-flex v-for="(message, index) in sortedmessages" :key="message.time" xs12 sm9 md6 class='mt-5'>
+      <v-flex v-for="(message, index) in messages" :key="message.time" xs12 sm9 md6 class='mt-5'>
         <!-- <v-alert outlined color="yellow darken-3" height="100" rounded="xl" width="100%"> -->
           <v-row align="center" justify="center" class='ma-1 mt-15'>
             <v-btn @click='showContent(message, index)' icon> 
             <v-card height='95' rounded="xl" width="100%">
               <v-container>
                 <v-row>
-                  <v-col class='mt-3 ml-1' cols='2'>
+                  <v-col v-if="avatar_urls[index] > 0" class='mt-3 ml-1' cols='2'>
                       <v-img 
                       :src="railsURL + avatar_urls[index]"
+                      style="object-fit: cover;"
+                      max-height="40"
+                      max-width="40"
+                      > 
+                       
+                      </v-img>
+                  </v-col>
+                  <v-col v-else class='mt-3 ml-1' cols='2'>
+                      <v-img 
+                      src="./../assets/icon/kame.jpg"
                       style="object-fit: cover;"
                       max-height="40"
                       max-width="40"
@@ -140,8 +195,6 @@ import { mapState } from "vuex";
     data: () => ({
       messages: [],
       dialog: false,
-      // railsURL: "http://localhost:3000",
-      // railsURL: 'https://54.168.35.214',
       users: [],
       avatar_urls: [],
       users_name: [],
@@ -215,6 +268,7 @@ import { mapState } from "vuex";
         },
         )
         .then(response => (
+          console.log(response),
           this.messages = response.data.messages,
           this.messages.forEach(message =>
             (
@@ -230,17 +284,20 @@ import { mapState } from "vuex";
                 + '/' + ('0' + japaneseTime2.getDate()).slice(-2)
                 + ' ' + ('0' + japaneseTime2.getHours()).slice(-2)
                 + ':' + ('0' + japaneseTime2.getMinutes()).slice(-2)
-          )),
-          this.users = response.data.users
-        ));
-        this.users.forEach(user =>
+          ))
+        ))
+
+        this.messages.forEach(message => (
+        
           axios()
-            .get('users/' + user.id ,{
+            .get('users/' + message.from_user_id ,{
               headers: this.user_info
             }).then(response=> (
+              this.users.push(response.data.id),
               this.users_name.push(response.data.name),
               this.avatar_urls.push(response.data.avatar_url)
-            ))    
+            ))  
+        )  
         );
       await axios()
         .get('/sending/' ,{
@@ -249,7 +306,8 @@ import { mapState } from "vuex";
         )
         .then(response => (
           this.sending_messages = response.data.messages,
-          this.content = this.sending_messages.length
+          this.content = this.sending_messages.length,
+          console.log(this.users_name)
         ))
     },
     computed: {
@@ -258,7 +316,7 @@ import { mapState } from "vuex";
           return this.messages.slice().sort((a, b) => {
             return (a.time > b.time) ? -1 : (a.time < b.time) ? 1 : 0;
         })
+      }
     }
-  }
   }
 </script>

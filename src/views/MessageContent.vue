@@ -49,13 +49,27 @@
             {{message.body}}  
           </v-row>
           <v-row class='mt-10 ml-2 mr-2'>
-            <v-img
-                v-bind:src="railsURL + message.image_url"
-                height="100"
-                width="100"
-            >
-            </v-img>
+            
+              <v-img
+                  v-bind:src="railsURL + message.image_url"
+                  height="200"
+                  width="100"
+                  @click='dialog=true'
+              >
+              </v-img>
+          
           </v-row>
+          <v-dialog
+                v-model="dialog"
+                max-width="500"
+            >
+            <v-card rounded="xl"> 
+               <v-img
+                  v-bind:src="railsURL + message.image_url"  
+                >
+              </v-img>
+            </v-card>
+            </v-dialog>
           </v-container>
         </v-card>
       </v-flex>
@@ -74,10 +88,9 @@ export default {
       message_id: '',
       message: {},
       uploadedImage: '',
-      // railsURL: "http://localhost:3000",
-      // railsURL: 'https://54.168.35.214',
       avatar: '',
-      from_name: ''
+      from_name: '',
+      dialog: false
     }),
     computed: {
     ...mapState(["user_info", "railsURL"]),
@@ -107,7 +120,8 @@ export default {
                   + '/' + ('0' + (japaneseTime2.getMonth() + 1)).slice(-2)
                   + '/' + ('0' + japaneseTime2.getDate()).slice(-2)
                   + ' ' + ('0' + japaneseTime2.getHours()).slice(-2)
-                  + ':' + ('0' + japaneseTime2.getMinutes()).slice(-2)
+                  + ':' + ('0' + japaneseTime2.getMinutes()).slice(-2),
+              console.log(this.message)
     ))
   },
   methods: {

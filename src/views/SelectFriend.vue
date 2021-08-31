@@ -84,8 +84,6 @@ export default {
           'avatar': null,
           'birthdate': null
         },
-        // railsURL: 'https://54.168.35.214',
-        // railsURL: "http://localhost:3000"
     }),
     async mounted() {
     await axios()

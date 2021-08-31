@@ -95,9 +95,8 @@
         </v-container>
       </v-row>
       <v-row justify="end" class='mt-0'>
-        <v-card-actions>
+          <v-btn outlined text @click="saveMessage"> 保存する </v-btn>
           <v-btn outlined text v-on:click="sendMessage">送信する</v-btn>
-        </v-card-actions> 
       </v-row>
     </v-alert>
     </v-card>
@@ -152,14 +151,11 @@ export default {
       minutesrange: minutesRange,
       time: [],
       title: [],
-      message: {},
       uploadedImage: '',
-      // railsURL: "http://localhost:3000"
-      // railsURL: 'https://54.168.35.214',
     }
   },
   computed: {
-    ...mapState(['user_info', "railsURL"],),
+    ...mapState(['user_info', "railsURL", "message"],),
   },
   mounted() {
     axios()
@@ -180,7 +176,7 @@ export default {
       formData.append('title', this.title);
       formData.append('body', this.body);
       formData.append('time', date.getTime() / 1000);
-      axios().post('/users/' + localStorage.getItem('id') + '/messages', formData, {
+      axios().post('/users/' + this.user_info['id'] + '/messages', formData, {
         headers: this.user_info
       }
       )
@@ -198,8 +194,22 @@ export default {
         console.log(this.uploadedImage)
      },
      returnPage() {
-    this.$router.push({name: 'Send'})
-  }
+        this.$router.push({name: 'Send'})
+      },
+    saveMesage(){
+      const tmp = {
+        title: this.title,
+        body: this.body,
+        year: this.year,
+        month: this.month,
+        day: this.day,
+        hour: this.hour,
+        minute: this.minute,
+        to_id: this.to_id,
+        image: this.image
+      }
+      this.$store.dispatch('saveMessage', tmp)
+    }
   },
 }
 </script>

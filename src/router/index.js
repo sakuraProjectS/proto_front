@@ -11,6 +11,7 @@ import TimeLine from '@/views/TimeLine.vue'
 import SendMessage from '@/views/SendMessage.vue'
 import ShowRequest from '@/views/ShowRequest.vue'
 import Sending from '@/views/Sending.vue'
+import Store from '@/store/index.js'
 
 
 Vue.use(VueRouter)
@@ -83,8 +84,10 @@ const router = new VueRouter({
   routes
 })
 
+
+
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => !record.meta.isPublic) && !localStorage.getItem('access-token')) {
+  if (to.matched.some(record => !record.meta.isPublic) && !!Store.state.userToken) {
     next({ name: 'Login', query: { redirect: to.fullPath } });
   } else {
     next();
